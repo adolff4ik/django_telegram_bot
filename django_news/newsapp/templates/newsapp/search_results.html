@@ -1,0 +1,30 @@
+{% extends 'newsapp/top-headlines.html' %}
+{% block content %}
+<div class="articles">
+    {% if results %}
+    <ul>
+        <li class="header">
+            <h2>Search results by country "{{ country }}", by key word "{{ q }}" and by category "{{ category }}"</h2>
+        </li>
+        {% for result in results %}
+        <li class="article">
+            <h2>{{ result.title }}</h2>
+            <p>{{ result.description }}</p>
+            <a target="_blank" href="{{ result.link }}">Дивитись статтю</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <ul>
+        <li class="header">
+            <h2>Search results by country "{{ country }}", by key word "{{ q }}" and by category "{{ category }}"</h2>
+        </li>
+        <li class="article">
+            <p>Nothing found.</p>
+        </li>
+    </ul>
+    {% endif %}
+</div>
+
+{% endblock %}
+

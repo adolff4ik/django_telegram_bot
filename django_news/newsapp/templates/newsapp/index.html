@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link type="text/css" href="{% static 'newsapp/css/style.css' %}" rel="stylsheet" />
+    <title>{{title}}</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html{
+            scroll-behavior: smooth;
+        }
+        body{
+            font-family: sans-serif;
+            /*background-image: url("/static/newsapp/img/Z.png");*/
+            background-attachment:fixed;
+            background-color: #f0f0f0;
+        }
+        header, .header{
+            text-align: center;
+            background-color: whitesmoke;
+            margin:20px;
+            margin-left: 13vw;
+            margin-right: 13vw;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 10px 0;
+        }
+        header ul, .header ul{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header ul li, .header ul li{
+            display: inline-block;
+            margin: 0 10px;
+        }
+        header ul li a, .header ul li a, .a{
+              color: #333;
+              text-decoration: none;
+              font-weight: bold;
+              /*text-transform: uppercase;*/
+        }
+        header ul li a:hover, .header ul li a:hover{
+              color: #ff6600;
+        }
+        .article {
+            margin-bottom: 20px;
+            padding: 10px;
+            /*background-color: ivory;*/
+            background-color: whitesmoke;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            margin: 20px;
+            /*display: inline; display: inline;*/
+            text-align: left;
+        }
+        .article h2 {
+            margin-top: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .article p {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .article a {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            text-decoration: none;
+            list-style: none;
+            display: inline;
+            font-family: 'Times New Roman';
+            max-width: 100%;
+            word-wrap: break-word;
+            font-weight: bold;
+            /*color: #0077cc;*/
+            color: #ff6600;
+        }
+        .article a:hover,.a:hover {
+            text-decoration: underline;
+            text-decoration: none;
+            transition: color 0.1s ease-in-out;
+            color: red;
+        }
+        ul {
+            list-style: none;
+            margin-left: 0;
+        }
+        div{
+            clear: both
+        }
+                        /*headlines*/
+
+        .form {
+            float: left;
+            margin: 50px ;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .cont {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form h1 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-align: center;
+        }
+
+        .form-group,
+        .form-error {
+            margin-bottom: 20px;
+        }
+
+        .errorlist li {
+            color: rgb(207, 0, 0);
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            display: block;
+            width: 90%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-group input::placeholder,
+        .form-group select::placeholder {
+            color: #999;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0062cc;
+        }
+                    /*^^^^headlines^^^^^*/
+    </style>
+</head>
+<body>
+    <header>
+        <ul>
+            {% if request.user.is_authenticated %}
+            <li><a href="{% url 'heaflines_url' %}">TOP-HEADLINES</a></li>
+            <li><a href="{% url 'everything_url' %}">EVERYSING</a></li>
+            <li><a href="{% url 'articles_url' %}">ARTICLES</a></li>
+            <li class="a">{{ user.username }}</li>|
+            <li><a href="{% url 'logout_url' %}">LOGOUT</a></li>
+            {% else %}
+            <li><a href="{% url 'registration_url' %}">REGISTRATION</a></li>
+            <li><a href="{% url 'login_url' %}">LOGIN</a></li>
+            {% endif %}
+        </ul>
+   </header>
+    {% block form %}
+    {% endblock %}
+    {% block content %}
+    {% endblock %}
+    {% if page_obj %}
+    <nav class="header">
+        <ul>
+            {% for art in page_obj.paginator.page_range %}
+            {% if page_obj.number == art %}
+            <li>{{ art }}</li>
+            {% elif art >= page_obj.number|add:-2 and art <= page_obj.number|add:2 %}
+            <li>
+                <a href="?page={{ art }}">{{ art }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+            {% if page_obj.number < page_obj.paginator.num_pages|add:-2 %}
+            <li>...</li>
+            <li>
+                <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</body>
+</html>

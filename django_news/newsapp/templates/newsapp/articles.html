@@ -1,0 +1,21 @@
+{% extends 'newsapp/index.html' %}
+{% block content %}
+    <ul>
+        <li class="header">
+            <h2>Your articles</h2>
+        </li>
+        {% if articles %}
+            {% for article in articles %}
+            <li class="article">
+                <h2>{{ article.title }}</h2>
+                <p>{{ article.description }}</p>
+                <a target="_blank" href="{{ article.link }}">Дивитись статтю</a><br>
+            </li>
+            {% endfor %}
+        {% else %}
+        <li class="article">
+            <p>Nothing found.</p>
+        </li>
+        {% endif %}
+    </ul>
+{% endblock %}

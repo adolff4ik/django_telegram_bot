@@ -1,0 +1,10 @@
+{% extends 'newsapp/index.html' %}
+{% block content %}
+    {% if article %}
+    <h2>{{ article.title }}</h2>
+    <p>{{ article.description }}</p>
+    <a target="_blank" href="{{ article.link }}">{{ article.link }}</a><br>
+    {% else %}
+    <p>Nothing found.</p>
+    {% endif %}
+{% endblock %}

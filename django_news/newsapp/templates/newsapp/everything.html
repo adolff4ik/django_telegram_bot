@@ -1,0 +1,18 @@
+{% extends 'newsapp/index.html' %}
+{% block form %}
+    <div class="form">
+        <h1>Search results by language and by key word</h1>
+        <form action="{% url 'results_everything_url' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="q">Key word:</label>
+                <input type="text" id="q" name="q" placeholder="Enter keyword">
+            </div>
+            <div class="form-group">
+                <label for="language">Language: </label>
+                <input type="text" id="language" name="language" placeholder="Enter language"><br>
+            </div>
+            <input type="submit" value="Search">
+        </form>
+    </div>
+{% endblock %}
